@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Java Penalty Shootout</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #1f3b2d;
+      color: white;
+      min-height: 100vh;
+      padding: 30px;
+    }
+
+    h1 {
+      font-size: 50px;
+      margin-bottom: 10px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: #294d3a;
+      border-radius: 25px;
+      padding: 25px;
+      border: 2px solid #3d6a52;
+    }
+
+    textarea {
+      width: 100%;
+      height: 300px;
+      background: black;
+      color: #00ff88;
+      border: 2px solid #3d6a52;
+      border-radius: 15px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 14px;
+      resize: none;
+    }
+
+    button {
+      margin-top: 20px;
+      background: #4dff88;
+      color: black;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #stadium {
+      position: relative;
+      height: 420px;
+      background: linear-gradient(to bottom, #2e8b57, #1f5c3f);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 20px;
+      border: 3px solid #3d6a52;
+    }
+
+    .goal {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 100px;
+    }
+
+    #goalkeeper {
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 55px;
+      transition: 0.5s;
+    }
+
+    #ball {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 45px;
+      transition: all 1s ease;
+    }
+
+    #player {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 60px;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #score {
+      margin-top: 20px;
+      font-size: 30px;
+      font-weight: bold;
+    }
+
+    .complete {
+      margin-top: 30px;
+      background: #4dff88;
+      color: black;
+      padding: 25px;
+      border-radius: 25px;
+      text-align: center;
+      display: none;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%,100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>JAVA PENALTY SHOOTOUT</h1>
+  <p>Learn Java by scoring goals.</p>
+
+  <div class="container">
+
+    <div class="card">
+      <h2 id="levelTitle">Step 1: Create a Class</h2>
+      <p id="instruction">Create a class called Main</p>
+
+      <textarea id="codeBox" placeholder="Write your Java code here..."></textarea>
+
+      <button onclick="checkCode()">Compile & Shoot</button>
+
+      <div id="message"></div>
+    </div>
+
+    <div class="card">
+      <h2>Penalty Arena</h2>
+
+      <div id="stadium">
+        <div class="goal">🥅</div>
+        <div id="goalkeeper">🧤</div>
+        <div id="ball">⚽</div>
+        <div id="player">🧑🏾‍💻</div>
+      </div>
+
+      <div id="score">Goals: 0</div>
+    </div>
+
+  </div>
+
+  <div class="complete" id="completeBox">
+    <h2>CHAMPION 🎉</h2>
+    <p>You completed the Java penalty shootout.</p>
+  </div>
+
+  <script>
+    const levels = [
+      {
+        title: "Step 1: Create a Class",
+        instruction: "Create a class called Main",
+        answer: "class Main"
+      },
+      {
+        title: "Step 2: Add Main Method",
+        instruction: "Add the main method",
+        answer: "public static void main"
+      },
+      {
+        title: "Step 3: Print Hello World",
+        instruction: "Print Hello World using System.out.println()",
+        answer: 'System.out.println("Hello World")'
+      }
+    ];
+
+    let currentLevel = 0;
+    let goals = 0;
+
+    function updateLevel() {
+      document.getElementById("levelTitle").innerText = levels[currentLevel].title;
+      document.getElementById("instruction").innerText = levels[currentLevel].instruction;
+      document.getElementById("codeBox").value = "";
+    }
+
+    function resetBall() {
+      const ball = document.getElementById("ball");
+
+      setTimeout(() => {
+        ball.style.bottom = "90px";
+        ball.style.top = "auto";
+        ball.style.left = "50%";
+      }, 1200);
+    }
+
+    function goalAnimation() {
+      const ball = document.getElementById("ball");
+      const keeper = document.getElementById("goalkeeper");
+
+      keeper.style.left = "30%";
+
+      ball.style.left = "70%";
+      ball.style.top = "70px";
+
+      resetBall();
+    }
+
+    function missAnimation() {
+      const ball = document.getElementById("ball");
+      const keeper = document.getElementById("goalkeeper");
+
+      keeper.style.left = "70%";
+
+      ball.style.left = "70%";
+      ball.style.top = "150px";
+
+      resetBall();
+    }
+
+    function checkCode() {
+      const code = document.getElementById("codeBox").value;
+      const message = document.getElementById("message");
+
+      if (code.includes(levels[currentLevel].answer)) {
+        message.innerHTML = "⚽ GOAL! Correct code.";
+
+        goals++;
+        document.getElementById("score").innerText = `Goals: ${goals}`;
+
+        goalAnimation();
+
+        if (currentLevel < levels.length - 1) {
+          currentLevel++;
+
+          setTimeout(() => {
+            updateLevel();
+          }, 1500);
+        } else {
+          setTimeout(() => {
+            document.getElementById("completeBox").style.display = "block";
+          }, 1500);
+        }
+
+      } else {
+        message.innerHTML = "❌ MISS! Incorrect code.";
+        missAnimation();
+      }
+    }
+  </script>
+
+</body>
+</html>
