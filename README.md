@@ -1,2 +1,2 @@
-# JAVA-PENALTY-SHOOTOUT
+# Java-Penalty-Shootout-Game
 Games
